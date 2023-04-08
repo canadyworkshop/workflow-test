@@ -27,6 +27,9 @@ jobs:
       id: addfile
       run: echo "$RANDOM" > pr-target/random.txt
 
+    - name: PRName
+      id: prname
+      run: PR_NAME=$RANDOM
     
     - name: Create Pull Request
       id: cpr
@@ -41,7 +44,7 @@ jobs:
         branch: autoimgupdate-${{ env.PR_BRANCH_NAME }}
         base: main
         delete-branch: true
-        title: '[RANDOM]'
+        title: ${{ env.PR_NAME }}
         body: 'Update random file content'
         
     - name: Enable Pull Request Automerge
