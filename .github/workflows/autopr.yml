@@ -29,7 +29,7 @@ jobs:
 
     - name: PRName
       id: prname
-      run: PR_NAME=$RANDOM
+      run: echo "PR_NAME=$RANDOM"
     
     - name: Create Pull Request
       id: cpr
