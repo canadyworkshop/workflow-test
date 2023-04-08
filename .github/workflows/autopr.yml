@@ -50,5 +50,5 @@ jobs:
     - name: Enable Pull Request Automerge
       run: gh pr merge --merge --auto "${{ steps.cpr.outputs.pull-request-number }}"  --repo canadyworkshop/pr-target
       env:
-       GH_TOKEN: ${{ secrets.AUTO_PR_MERGE_PRIVATE_KEY }}
+       GH_TOKEN: ${{ steps.cross-repo-creds.outputs.token }}
 
