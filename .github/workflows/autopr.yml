@@ -1,0 +1,45 @@
+name: AutoPR
+on:
+  workflow_call:
+    
+
+jobs:
+  checkout-update:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: cross-repo-creds token
+      id: cross-repo-creds
+      uses: getsentry/action-github-app-token@v2
+      with:
+        app_id: ${{ secrets.AUTO_PR_MERGE_ID }}
+        private_key: ${{ secrets.AUTO_PR_MERGE_PRIVATE_KEY }}
+
+    - name: Checkout repo
+      uses: actions/checkout@v3
+      with:
+        repository: 'canadyworkshop/pr-target'
+        path: 'pr-target'
+        ref: main
+        token: ${{ steps.cross-repo-creds.outputs.token }}
+
+    - name: Add random file
+      id: addfile
+      run: echo "$RANDOM" > pr-target/random.txt
+
+    
+    - name: Create Pull Request
+      id: cpr
+      uses: peter-evans/create-pull-request@v4
+      with:
+        token: ${{ steps.cross-repo-creds.outputs.token }}
+        path: pr-target
+        commit-message: Random Version
+        committer: GitHub <noreply@github.com>
+        author: GitHub Actions <noreply@github.com>
+        asignees: ${{ github.actor }}
+        branch: autoimgupdate-${{ env.PR_BRANCH_NAME }}
+        base: main
+        delete-branch: true
+        title: '[RANDOM]'
+        body: 'Update random file content'
