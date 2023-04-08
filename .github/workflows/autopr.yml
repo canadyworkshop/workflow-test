@@ -48,7 +48,7 @@ jobs:
         body: 'Update random file content'
         
     - name: Enable Pull Request Automerge
-      run: gh pr merge --merge --auto "${{github.event.number}}" --repo canadyworkshop/pr-target
+      run: gh pr merge --merge --auto "${{ steps.cpr.pull-request-number }}" --repo canadyworkshop/pr-target
       env:
        GH_TOKEN: ${{ secrets.AUTO_PR_MERGE_PRIVATE_KEY }}
 
