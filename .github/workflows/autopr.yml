@@ -44,7 +44,7 @@ jobs:
         branch: autoimgupdate-${{ env.PR_BRANCH_NAME }}
         base: main
         delete-branch: true
-        title: ${{ env.PR_NAME }}
+        title: "RANDOM"
         body: 'Update random file content'
         
     - name: Enable Pull Request Automerge
