@@ -37,7 +37,7 @@ jobs:
         commit-message: Random Version
         committer: GitHub <noreply@github.com>
         author: GitHub Actions <noreply@github.com>
-        asignees: ${{ github.actor }}
+        assignees: ${{ github.actor }}
         branch: autoimgupdate-${{ env.PR_BRANCH_NAME }}
         base: main
         delete-branch: true
