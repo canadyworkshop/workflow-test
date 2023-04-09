@@ -4,7 +4,7 @@ on:
 
 jobs:
   deploy-development:
-    uses: canadyworkshop/workflow-test/.github/workflows/auotpr.yml@latest
+    uses: canadyworkshop/workflow-test/.github/workflows/autopr.yml@latest
     with:
       FILE_PATH: "dev.txt"
       REPO: "canadyworkshop/pr-target"
