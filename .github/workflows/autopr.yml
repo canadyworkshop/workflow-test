@@ -38,7 +38,7 @@ jobs:
 
     - name: Update File
       id: updateFile
-      run: echo "${{ steps.prname.outputs.RAND_NUMBER }}" > pr-target/random.txt
+      run: echo "${{ steps.prname.outputs.RAND_NUMBER }}" > repo/random.txt
     
     - name: Create Pull Request
       id: cpr
