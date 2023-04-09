@@ -53,7 +53,7 @@ jobs:
        GH_TOKEN: ${{ steps.cross-repo-creds.outputs.token }}
        
     - name: Merge
-      run: gh pr merge --merge "${{ steps.cpr.outputs.pull-request-number }}"  --repo canadyworkshop/pr-target
+      run: gh pr merge --merge --admin "${{ steps.cpr.outputs.pull-request-number }}"  --repo canadyworkshop/pr-target
       env:
        GH_TOKEN: ${{ steps.cross-repo-creds.outputs.token }}
        
