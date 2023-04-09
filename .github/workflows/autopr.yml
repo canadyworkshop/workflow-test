@@ -38,7 +38,7 @@ jobs:
 
     - name: Update File
       id: updateFile
-      run: echo "${{ steps.prname.outputs.RAND_NUMBER }}" > repo/random.txt
+      run: echo "${{ steps.genrand.outputs.RAND_NUMBER }}" > repo/random.txt
     
     - name: Create Pull Request
       id: cpr
@@ -50,10 +50,10 @@ jobs:
         committer: GitHub <noreply@github.com>
         author: GitHub Actions <noreply@github.com>
         assignees: ${{ github.actor }}
-        branch: random-number-${{ steps.prname.outputs.RAND_NUMBER }}
+        branch: random-number-${{ steps.genrand.outputs.RAND_NUMBER }}
         base: main
         delete-branch: true
-        title: ${{ steps.prname.outputs.RAND_NUMBER }}
+        title: ${{ steps.genrand.outputs.RAND_NUMBER }}
         body: 'Update random file content'
         
     - name: Merge
