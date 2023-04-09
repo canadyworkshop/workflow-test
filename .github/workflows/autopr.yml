@@ -29,7 +29,8 @@ jobs:
 
     - name: PRName
       id: prname
-      run: echo "PR_NAME=$RANDOM"
+      run: echo PR_NAME=$RANDOM\n" >> $GITHUB_OUTPUT
+
     
     - name: Create Pull Request
       id: cpr
@@ -44,7 +45,7 @@ jobs:
         branch: autoimgupdate-${{ env.PR_BRANCH_NAME }}
         base: main
         delete-branch: true
-        title: "RANDOM"
+        title: ${{ steps.prname.outputs.PR_NAME }}
         body: 'Update random file content'
         
     - name: Enable Pull Request Automerge
