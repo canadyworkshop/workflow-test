@@ -29,7 +29,7 @@ jobs:
 
     - name: PRName
       id: prname
-      run: echo "PR_NAME=$RANDOM\n" >> $GITHUB_OUTPUT
+      run: echo "PR_NAME=$RANDOM" >> $GITHUB_OUTPUT
 
     
     - name: Create Pull Request
@@ -42,16 +42,16 @@ jobs:
         committer: GitHub <noreply@github.com>
         author: GitHub Actions <noreply@github.com>
         assignees: ${{ github.actor }}
-        branch: autoimgupdate-${{ env.PR_BRANCH_NAME }}
+        branch: autoimgupdate-${{ steps.prname.outputs.PR_NAME }}
         base: main
         delete-branch: true
         title: ${{ steps.prname.outputs.PR_NAME }}
         body: 'Update random file content'
         
-    - name: Enable Pull Request Automerge
-      run: gh pr merge --merge --auto "${{ steps.cpr.outputs.pull-request-number }}"  --repo canadyworkshop/pr-target
-      env:
-       GH_TOKEN: ${{ steps.cross-repo-creds.outputs.token }}
+#     - name: Enable Pull Request Automerge
+#       run: gh pr merge --merge --auto "${{ steps.cpr.outputs.pull-request-number }}"  --repo canadyworkshop/pr-target
+#       env:
+#        GH_TOKEN: ${{ steps.cross-repo-creds.outputs.token }}
        
     - name: Merge
       run: gh pr merge --merge --admin "${{ steps.cpr.outputs.pull-request-number }}"  --repo canadyworkshop/pr-target
