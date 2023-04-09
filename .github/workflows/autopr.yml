@@ -18,6 +18,7 @@ on:
         required: true
 jobs:
   update-merge:
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
     - name: Create cross repo token
