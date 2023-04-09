@@ -1,36 +1,44 @@
-name: AutoPR
+name: AutoUpdate
 on:
-  workflow_dispatch:
-    
-
+  workflow_call:
+    inputs:
+      FILE_PATH:
+        type: string
+        required: true
+      REPO:
+        type: string
+        required: true
+    secrets:
+      GITHUB_APP_ID:
+        required: true
+      GITHUB_APP_PRIVATE_KEY:
+        required: true
 jobs:
-  checkout-update:
+  update-merge:
     runs-on: ubuntu-latest
     steps:
-
-    - name: cross-repo-creds token
+    - name: Create cross repo token
       id: cross-repo-creds
       uses: getsentry/action-github-app-token@v2
       with:
-        app_id: ${{ secrets.AUTO_PR_MERGE_ID }}
-        private_key: ${{ secrets.AUTO_PR_MERGE_PRIVATE_KEY }}
+        app_id: ${{ secrets.GITHUB_APP_ID }}
+        private_key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
 
     - name: Checkout repo
       uses: actions/checkout@v3
       with:
-        repository: 'canadyworkshop/pr-target'
-        path: 'pr-target'
+        repository: ${{ inputs.REPO }}
+        path: 'repo'
         ref: main
         token: ${{ steps.cross-repo-creds.outputs.token }}
+        
+    - name: Generate random number
+      id: genrand
+      run: echo "RAND_NUMBER=$RANDOM" >> $GITHUB_OUTPUT
 
-    - name: Add random file
-      id: addfile
-      run: echo "$RANDOM" > pr-target/random.txt
-
-    - name: PRName
-      id: prname
-      run: echo "PR_NAME=$RANDOM" >> $GITHUB_OUTPUT
-
+    - name: Update File
+      id: updateFile
+      run: echo "${{ steps.prname.outputs.RAND_NUMBER }}" > pr-target/random.txt
     
     - name: Create Pull Request
       id: cpr
@@ -38,28 +46,19 @@ jobs:
       with:
         token: ${{ steps.cross-repo-creds.outputs.token }}
         path: pr-target
-        commit-message: Random Version
+        commit-message: Random Update
         committer: GitHub <noreply@github.com>
         author: GitHub Actions <noreply@github.com>
         assignees: ${{ github.actor }}
-        branch: autoimgupdate-${{ steps.prname.outputs.PR_NAME }}
+        branch: random-number-${{ steps.prname.outputs.RAND_NUMBER }}
         base: main
         delete-branch: true
-        title: ${{ steps.prname.outputs.PR_NAME }}
+        title: ${{ steps.prname.outputs.RAND_NUMBER }}
         body: 'Update random file content'
         
-#     - name: Enable Pull Request Automerge
-#       run: gh pr merge --merge --auto "${{ steps.cpr.outputs.pull-request-number }}"  --repo canadyworkshop/pr-target
-#       env:
-#        GH_TOKEN: ${{ steps.cross-repo-creds.outputs.token }}
-       
     - name: Merge
-      run: gh pr merge --merge --admin "${{ steps.cpr.outputs.pull-request-number }}"  --repo canadyworkshop/pr-target
+      run: gh pr merge --merge --admin "${{ steps.cpr.outputs.pull-request-number }}"  --repo ${{ inputs.REPO }}
       env:
        GH_TOKEN: ${{ steps.cross-repo-creds.outputs.token }}
        
-#     - name: Approve
-#       run: gh pr review -a "${{ steps.cpr.outputs.pull-request-number }}"  --repo canadyworkshop/pr-target
-#       env:
-#        GH_TOKEN: ${{ steps.cross-repo-creds.outputs.token }}
 
