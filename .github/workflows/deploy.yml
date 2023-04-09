@@ -3,29 +3,40 @@ on:
   workflow_dispatch
 
 jobs:
-  deploy-development:
-    runs-on: ubuntu-latest
-    environment: "Development"
 
-    steps:
-      - name: Deploy Development
-        uses: canadyworkshop/workflow-test/.github/workflows/autopr.yml@main
-        with:
-          FILE_PATH: "dev.txt"
-          REPO: "canadyworkshop/pr-target"
-#       secrets:
-#           GITHUB_APP_ID: ${{ secrets.AUTO_PR_MERGE_ID }}
-#           GITHUB_APP_PRIVATE_KEY: ${{ secrets.AUTO_PR_MERGE_PRIVATE_KEY }}
+  deploy-development:
+    name: Deploy Development
+    uses: canadyworkshop/workflow-test/.github/workflows/autopr.yml@main
+    with:
+      FILE_PATH: "dev.txt"
+      REPO: "canadyworkshop/pr-target"
+      environment: "Development"
+    secrets:
+      GITHUB_APP_ID: ${{ secrets.AUTO_PR_MERGE_ID }}
+      GITHUB_APP_PRIVATE_KEY: ${{ secrets.AUTO_PR_MERGE_PRIVATE_KEY }}
       
-#   deploy-production:
-#     needs: ["deploy-development"]
-#     name: Deploy Production
-#     uses: canadyworkshop/workflow-test/.github/workflows/autopr.yml@main
-#     with:
-#       FILE_PATH: "dev.txt"
-#       REPO: "canadyworkshop/pr-target"
-#     secrets:
-#       GITHUB_APP_ID: ${{ secrets.AUTO_PR_MERGE_ID }}
-#       GITHUB_APP_PRIVATE_KEY: ${{ secrets.AUTO_PR_MERGE_PRIVATE_KEY }}
+  deploy-staging:
+    name: Deploy Staging
+    needs: ["deploy-development"]
+    uses: canadyworkshop/workflow-test/.github/workflows/autopr.yml@main
+    with:
+      FILE_PATH: "staging.txt"
+      REPO: "canadyworkshop/pr-target"
+      environment: "Staging"
+    secrets:
+      GITHUB_APP_ID: ${{ secrets.AUTO_PR_MERGE_ID }}
+      GITHUB_APP_PRIVATE_KEY: ${{ secrets.AUTO_PR_MERGE_PRIVATE_KEY }}
+      
+  deploy-production:
+    name: Deploy Production
+    needs: ["deploy-staging"]
+    uses: canadyworkshop/workflow-test/.github/workflows/autopr.yml@main
+    with:
+      FILE_PATH: "production.txt"
+      REPO: "canadyworkshop/pr-target"
+      environment: "Production"
+    secrets:
+      GITHUB_APP_ID: ${{ secrets.AUTO_PR_MERGE_ID }}
+      GITHUB_APP_PRIVATE_KEY: ${{ secrets.AUTO_PR_MERGE_PRIVATE_KEY }}
   
   
