@@ -1,0 +1,24 @@
+name: Deploy
+on:
+  workflow_dispatch
+
+jobs:
+  pass-secret-to-action:
+    runs-on: ubuntu-latest
+    steps:
+    # passing the secret to an action
+      - name: Pass the received secret to an action
+        uses: ./.github/actions/my-action
+        with:
+          token: ${{ secrets.access-token }}
+
+  deploy-development:
+    uses: canadyworkshop/workflow-test/.github/workflows/auotpr.yml@latest
+    with:
+      FILE_PATH: "dev.txt"
+      REPO: "canadyworkshop/pr-target"
+    secrets:
+      GITHUB_APP_ID: ${{ secrets.AUTO_PR_MERGE_ID }}
+      GITHUB_APP_PRIVATE_KEY: ${{ secrets.AUTO_PR_MERGE_PRIVATE_KEY }}
+  
+  
