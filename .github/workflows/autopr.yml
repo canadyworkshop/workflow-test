@@ -52,8 +52,8 @@ jobs:
       env:
        GH_TOKEN: ${{ steps.cross-repo-creds.outputs.token }}
        
-    - name: Approve
-      run: gh pr review -a "${{ steps.cpr.outputs.pull-request-number }}"  --repo canadyworkshop/pr-target
-      env:
-       GH_TOKEN: ${{ steps.cross-repo-creds.outputs.token }}
+#     - name: Approve
+#       run: gh pr review -a "${{ steps.cpr.outputs.pull-request-number }}"  --repo canadyworkshop/pr-target
+#       env:
+#        GH_TOKEN: ${{ steps.cross-repo-creds.outputs.token }}
 
