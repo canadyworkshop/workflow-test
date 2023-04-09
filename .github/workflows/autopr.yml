@@ -8,6 +8,9 @@ on:
       REPO:
         type: string
         required: true
+      environment:
+        type: string
+        required: true
     secrets:
       GITHUB_APP_ID:
         required: true
