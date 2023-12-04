@@ -1,0 +1,12 @@
+name: squidtest
+on:
+  workflow_dispatch
+
+jobs:
+  curl:
+    name: curltest
+    runs-on: ubuntu-latest
+    steps:
+    - name: curlit
+      id: curl-it
+      run: curl https://squidward.is.jackhenry.com/app#/users/sign-in
