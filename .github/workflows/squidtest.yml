@@ -12,4 +12,4 @@ jobs:
     steps:
     - name: curlit
       id: curl-it
-      run: curl https://badfqdn.is.jackhenry.com/app#/users/sign-in
+      run: curl https://squidward.is.jackhenry.com/app#/users/sign-in
